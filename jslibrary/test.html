@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="dynamicResize.js"></script>
+    </head>
+
+    <canvas id="canvas" style="min-height:600px; max-height:600px;"></canvas>
+    <button id="btn-run">run</button>
+    <br/>original image:
+    <img id="img" src="polarbear.jpg">
+</html>
+
+<script>
+    var img = document.getElementById('img');
+    // var btnRun = document.getElementById('btn-run');
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var backCanvas = document.createElement('canvas');
+    var backContext = backCanvas.getContext('2d');
+    var w = 1000;
+    var h = 600;
+    canvas.width = w;
+    canvas.height = h;
+    backCanvas.width = w;
+    backCanvas.height = h;
+
+
+
+    var polarBear = dynamicResize(canvas, context, img, 'horizontal');
+    console.log(polarBear);
+
+    var pixelData = getPixelData(img);
+
+    context.putImageData(pixelData, 0, 0);
+
+    // btnRun.addEventListener('click', function (e) {
+    //     //context.drawImage(img, 0, 0);
+    //     var pixelData = getPixelData(img);
+    //     context.clearRect ( 0 , 0 , canvas.width, canvas.height );
+    //     context.putImageData(pyrDown(pixelData, 100), 0, 0);
+    //     alert('done');
+    // });
+
+    // function pyrDown(srcImageData, level) {
+    //     var height = srcImageData.height;
+    //     var width = srcImageData.width;
+    //     for (var i = 0; i <= level; i++) {
+    //         console.info(i + ' ' + width + ' ' + height);
+    //         srcImageData = downsampleHorizontal(srcImageData, width, height);
+    //         width = width - 1;
+    //     }
+    //     return srcImageData;
+    // }
+
+    // function downsample(srcImageData, width, height) {
+    //     var backContext = document.createElement('canvas').getContext('2d');
+    //     var skip = 2;
+    //     var result = backContext.createImageData(width/2, height/2);
+    //     var d = 0;
+    //     for (var y = 0; y < height; y += skip) {
+    //         for (var x = 0; x < width; x += skip) {
+    //             for (var c = 0; c < 4; c++) {
+    //                 result.data[d++] = srcImageData.data[(y*width+x)*4+c];
+    //             }
+    //         }
+    //     }
+    //     srcImageData = result;
+    //     return srcImageData;
+    // }
+
+    // function downsampleHorizontal(srcImageData, width, height) {
+    //     var backContext = document.createElement('canvas').getContext('2d');
+    //     var result = backContext.createImageData(width-1, height);
+    //     var d = 0;
+    //     for (var y = 0; y < height; y += 1) {
+    //         for (var x = 0; x < width-1; x += 1) {
+    //             for (var c = 0; c < 4; c++) {
+    //                 result.data[d++] = srcImageData.data[(y*width+x)*4+c];
+    //             }
+    //         }
+    //     }
+    //     srcImageData = result;
+    //     return result;
+    // }
+
+    function getPixelData(data) {
+        backContext.createImageData(w, h);
+        backContext.drawImage(data, 0, 0);
+        return backContext.getImageData(0, 0, w, h);
+    }
+</script>
