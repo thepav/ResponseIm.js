@@ -117,7 +117,7 @@ def reduceStepHori(sobel):
 
 
 
-img = cv2.imread('polarbear.jpg')
+img = cv2.imread('penguin.jpg')
 
 sobel = getSobel(img)
 
@@ -147,7 +147,7 @@ deletions  =None
 #     print img.shape
 #     newimg = []
 
-for i in range(0,200):
+for i in range(0,1500):
     if deletions != None:
         for i in range(0,len(deletions)):
             copy = np.delete(img[i,:],deletions[i],axis=0)
