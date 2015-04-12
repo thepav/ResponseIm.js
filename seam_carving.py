@@ -4,6 +4,7 @@ from pprint import pprint
 import copy as cp
 import heapq
 import time
+import pickle
 
 def getSobel(img):
     scale = 1
@@ -78,7 +79,7 @@ def reduceStepHori(sobel):
     theimage = []
     # thecolorimage = []
     deletion = []
-    for ind in f(sobel[0,:].tolist(),100):
+    for ind in f(sobel[sobel.shape[0]/2,:].tolist(),100):
         summ = 0
         deletions = [ind]
         copy = np.delete(sobel[0,:],ind)
@@ -117,7 +118,7 @@ def reduceStepHori(sobel):
 
 
 
-img = cv2.imread('polarbear.jpg')
+img = cv2.imread('penguins.jpg')
 
 sobel = getSobel(img)
 
@@ -147,7 +148,9 @@ deletions  =None
 #     print img.shape
 #     newimg = []
 
-for i in range(0,200):
+allDeletions = []
+
+for j in range(0,800):
     if deletions != None:
         for i in range(0,len(deletions)):
             copy = np.delete(img[i,:],deletions[i],axis=0)
@@ -155,21 +158,36 @@ for i in range(0,200):
         img = np.array(newimg,dtype='uint8')
 
     sobel,deletions = reduceStepHori(sobel)
+    allDeletions.append(deletions)
     #print 'sobel:',sobel.shape
-    if deletionsa == None:
-        deletionsa = deletions
-    else:
-        # print sum([a_i - b_i for a_i, b_i in zip(deletionsa, deletions)])
-        # print deletions[0]
-        deletionsa = deletions
+    # if deletionsa == None:
+    #     deletionsa = deletions
+    # else:
+    #     # print sum([a_i - b_i for a_i, b_i in zip(deletionsa, deletions)])
+    #     # print deletions[0]
+    #     deletionsa = deletions
+    sobel2 = cp.deepcopy(img)
+    for i in range(0,len(deletions)):
+        color = (0,0,255)
+        cv2.rectangle(img,(deletions[i],i),(deletions[i]+1,i+1),color,1)
+    cv2.imshow('reduce',img)
 
-    #sobel2 = cv2.cvtColor(sobel2,cv2.COLOR_GRAY2BGR)
-    # for i in range(0,len(deletions)):
-    #     color = (0,0,255)
-    #     cv2.rectangle(img,(deletions[i],i),(deletions[i]+1,i+1),color,1)
-    # print img.shape
+
+    #print img.shape
     newimg = []
-    
+    print j
+
+f = open('data.js','w')
+f.write('var data = [')
+for deletions in allDeletions:
+    f.write('[')
+    for deletion in deletions:
+        f.write(str(deletion)+',')
+    f.write('],')
+f.write('];')
+f.close()
+
+print allDeletions
 cv2.imshow('reduce',img)
 
 
