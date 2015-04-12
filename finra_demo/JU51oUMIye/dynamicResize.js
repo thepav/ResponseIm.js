@@ -21,7 +21,7 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
         return backContext.getImageData(0, 0, w, h);
     }
 
-	self.pixelData = self.getPixelData(self.image, 1920, self.height);
+	self.pixelData = self.getPixelData(self.image, 1440, self.height);
 
     self.downsampleHorizontalAndPopulateArray = function(srcImageData, width, height, pixelArray) {
         console.log("downsampleHorizontalAndPopulateArray");
