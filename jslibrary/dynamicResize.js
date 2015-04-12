@@ -29,6 +29,7 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
         var d = 0;
         for (var y = 0; y < height; y += skip) {
             for (var x = 0; x < width; x += skip) {
+                
                 for (var c = 0; c < 4; c++) {
                     result.data[d++] = srcImageData.data[(y*width+x)*4+c];
                 }
@@ -94,12 +95,10 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
                             result.data[d++] = srcImageData.data[(row*width+col)*4+c];
                         }
                     }
-                    // for (var c = 0; c < 4; c++) {
-                    //     result.data[d++] = srcImageData.data[(row*width+col)*4+c];
-                    // }
                 }
             }
-            if (numSkipped != 600) {
+            console.log(width);
+            if (numSkipped != 637) {
                 console.log("numSkipped " + numSkipped);   
             }
             width = width - 1;
@@ -127,7 +126,7 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
     self.resizeHorizontallyAndPopulateArray = function(pixelArray) {
 
         self.currentWidth = self.canvas.width;
-        self.pixelData = self.downsampleHorizontalAndPopulateArray(self.pixelData, self.width, self.height, pixelArray);
+        self.pixelData = self.downsampleHorizontalAndPopulateArray(self.pixelData, 1904, self.height, pixelArray);
      //    context.clearRect ( 0 , 0 , self.canvas.width, self.canvas.height );
         // self.canvas.width = self.width;
         // context.putImageData(self.pixelData, 0, 0);
@@ -136,7 +135,9 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
 
     self.setWidth = function(width) {
         context.clearRect ( 0 , 0 , self.canvas.width, self.canvas.height );
-        context.putImageData(self.cachePictures[Math.round(width / 10) * 10], 0, 0);
+        context.putImageData(self.cachePictures[Math.round((1903-$(window).width())/ 10) * 10], 0,0);
+        console.log(self.cachePictures[Math.round((1903-$(window).width())/ 10) * 10]);
+        $("#img-no-inseam").css('width', self.cachePictures[Math.round((1903-$(window).width())/ 10) * 10].width + "px;");
     }
 
 	if (type == 'vertical') {
@@ -144,8 +145,10 @@ function dynamicResize(canvas, context, backCanvas, backContext, image, type, pi
 	} else if (type == 'horizontal') {
 		//var worker = new Worker('polarBearHorizontalWorker.js');
 		self.resizeHorizontallyAndPopulateArray(pixelArray);
+
 		$( window ).resize(function() {
             self.setWidth(self.initialCanvasWidth - $(canvas).width());
+            console.log("HI");
 		});
 	}
     return self;
