@@ -1,4 +1,4 @@
-# imseam.js
+# ResponseIm.js
 
 ## Inspiration
 
