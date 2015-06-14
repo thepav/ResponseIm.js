@@ -17,7 +17,7 @@ We use Seam Carving as described by Shai Avidan et al. in their paper Seam Carvi
 
 ![](http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/242/102/datas/gallery.jpg)
 
-We demonstrated this web capability at Bitcamp 2015 by creating a Investor Profiler using FINRA data, and placing a responsive image of the skyline of London as a banner on the top of the page. We also created a mongodb utility to scrape FINRA's xml format and transfer it to a noSQL db, to this end.
+We demonstrated this web capability at Bitcamp 2015 by creating a fake Investor Profiler page using FINRA data, and placing a responsive image of the skyline of London as a banner on the top of the page. 
 
 Checkout a Video of it working in a browser with two different images here:
 
